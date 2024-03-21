@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="63210480-7783-4e50-ae97-6a0a022876e4" name="Changes" comment="countvectorizer baseline">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="63210480-7783-4e50-ae97-6a0a022876e4" name="Changes" comment="RoBERTa train &amp; Inference code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,15 +51,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/PC2301/Desktop/Grading/main.py",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/PC2301/Desktop/Grading/main.py&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\PC2301\Desktop\Grading\experiment\dataset" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -125,12 +129,57 @@
       <option name="project" value="LOCAL" />
       <updated>1710856523978</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="환경 업데이트">
+      <option name="closed" value="true" />
+      <created>1710862094049</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1710862094049</updated>
+    </task>
+    <task id="LOCAL-00008" summary="데이터셋">
+      <option name="closed" value="true" />
+      <created>1710862135035</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1710862135035</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Bert-base train &amp; Inference code">
+      <option name="closed" value="true" />
+      <created>1710862171565</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1710862171565</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Benchmark Info">
+      <option name="closed" value="true" />
+      <created>1711036221514</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1711036221514</updated>
+    </task>
+    <task id="LOCAL-00011" summary="RoBERTa train &amp; Inference code">
+      <option name="closed" value="true" />
+      <created>1711036611948</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1711036611948</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="AI 시행착오 기록 폴더" />
     <MESSAGE value="countvectorizer baseline" />
-    <option name="LAST_COMMIT_MESSAGE" value="countvectorizer baseline" />
+    <MESSAGE value="환경 업데이트" />
+    <MESSAGE value="데이터셋" />
+    <MESSAGE value="Bert-base train &amp; Inference code" />
+    <MESSAGE value="Benchmark Info" />
+    <MESSAGE value="RoBERTa train &amp; Inference code" />
+    <option name="LAST_COMMIT_MESSAGE" value="RoBERTa train &amp; Inference code" />
   </component>
 </project>
