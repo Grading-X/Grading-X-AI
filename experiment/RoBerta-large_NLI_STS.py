@@ -34,3 +34,40 @@ klue_nli_train = load_dataset("klue", "nli", split="train")
 print(len(klue_nli_train))
 print(klue_nli_train[0])
 
+def triplet(dataset):
+
+  train_data = {}
+  def dataset_construction(hypothesis, premise, label):
+    if hypothesis not in train_data:
+      train_data[hypothesis] = {'contradiction':set(), 'entailment': set(), 'neutral': set()}
+    train_data[hypothesis][label].add(premise)
+
+  for i, data in enumerate(dataset):
+    hypothesis = data['hypothesis'].strip()
+    premise = data['premise'].strip()
+    if data['label'] == 0:
+      label = 'entailment'
+    elif data['label'] == 1:
+      label = 'neutral'
+    else:
+      label = 'contradiction'
+
+    dataset_construction(hypothesis, premise, label)
+    dataset_construction(premise, hypothesis, label)
+
+  input_examples = []
+  for hypothesis, others in train_data.items():
+    if len(others['entailment']) > 0 and len(others['contradiction']) > 0:
+      input_examples.append( InputExample(texts=[hypothesis, random.choice(list(others['entailment'])), random.choice(list(others['contradiction']))]) )
+      input_examples.append( InputExample(texts=[random.choice(list(others['entailment'])), hypothesis, random.choice(list(others['contradiction']))]) )
+
+  return input_examples
+
+nli_train_examples = triplet(klue_nli_train)
+print(nli_train_examples[0].texts)
+print(nli_train_examples[1].texts)
+
+nli_train_dataloader = NoDuplicatesDataLoader(
+    nli_train_examples,
+    batch_size=batch_size,
+)
