@@ -137,3 +137,19 @@ model.fit(
     output_path=nli_model_save_path,
     use_amp=False,
 )
+
+model = SentenceTransformer(nli_model_save_path)
+
+train_loss = losses.CosineSimilarityLoss(model=model)
+
+warmup_steps = math.ceil(len(sts_train)*sts_num_epochs/batch_size*0.1)
+logging.info("Warmup-steps: {}".format(warmup_steps))
+
+model.fit(
+    train_objectives=[(train_dataloader, train_loss)],
+    evaluator=val_evaluator,
+    epochs=sts_num_epochs,
+    evaluation_steps=int(len(train_dataloader)*0.1),
+    warmup_steps=warmup_steps,
+    output_path=sts_model_save_path
+)
