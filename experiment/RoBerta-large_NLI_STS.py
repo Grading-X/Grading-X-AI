@@ -107,3 +107,18 @@ test_evaluator = EmbeddingSimilarityEvaluator.from_input_examples(
     sts_test,
     name="sts-test"
 )
+
+embedding = models.Transformer(
+    model_name_or_path = 'klue/roberta-large',
+    max_seq_length=256,
+    do_lower_case=True
+)
+
+pooling = models.Pooling(
+    embedding.get_word_embedding_dimension(),
+    pooling_mode_mean_tokens=True,
+    pooling_mode_cls_token=False,
+    pooling_mode_max_tokens=False,
+)
+
+model = SentenceTransformer(modules=[embedding, pooling])
