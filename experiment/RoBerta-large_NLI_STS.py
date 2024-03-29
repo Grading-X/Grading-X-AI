@@ -153,3 +153,5 @@ model.fit(
     warmup_steps=warmup_steps,
     output_path=sts_model_save_path
 )
+
+print(test_evaluator(model, output_path=sts_model_save_path))
