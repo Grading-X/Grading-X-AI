@@ -122,3 +122,18 @@ pooling = models.Pooling(
 )
 
 model = SentenceTransformer(modules=[embedding, pooling])
+
+train_loss = losses.MultipleNegativesRankingLoss(model)
+
+warmup_steps = math.ceil(len(nli_train_examples)*nli_num_epochs/batch_size*0.1)
+logging.info("Warmup-steps: {}".format(warmup_steps))
+
+model.fit(
+    train_objectives=[(train_dataloader, train_loss)],
+    evaluator=val_evaluator,
+    epochs=nli_num_epochs,
+    evaluation_steps=int(len(nli_train_dataloader)*0.1),
+    warmup_steps=warmup_steps,
+    output_path=nli_model_save_path,
+    use_amp=False,
+)
