@@ -27,8 +27,8 @@ nli_num_epochs = 1
 sts_num_epochs = 4
 batch_size = 32
 
-nli_model_save_path = 'output/training_nli_by_MLRloss_'+model_name.replace("/", "-")+'-'+datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-sts_model_save_path = 'output/training_sts_continue_training'+model_name.replace("/", "-")+'-'+datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+nli_model_save_path = 'save/training_nli_by_MLRloss_'+model_name.replace("/", "-")+'-'+datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+sts_model_save_path = 'save/training_sts_continue_training'+model_name.replace("/", "-")+'-'+datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
 klue_nli_train = load_dataset("klue", "nli", split="train")
 print(len(klue_nli_train))
@@ -63,6 +63,7 @@ def triplet(dataset):
 
   return input_examples
 
+
 nli_train_examples = triplet(klue_nli_train)
 print(nli_train_examples[0].texts)
 print(nli_train_examples[1].texts)
@@ -89,6 +90,7 @@ def preprocessing(dataset):
 
         result.append(InputExample(texts=[sentence1, sentence2], label=score))
     return result
+
 
 sts_train = preprocessing(klue_sts_train)
 sts_valid = preprocessing(klue_sts_valid)
@@ -129,7 +131,7 @@ warmup_steps = math.ceil(len(nli_train_examples)*nli_num_epochs/batch_size*0.1)
 logging.info("Warmup-steps: {}".format(warmup_steps))
 
 model.fit(
-    train_objectives=[(train_dataloader, train_loss)],
+    train_objectives=[(nli_train_dataloader, train_loss)],
     evaluator=val_evaluator,
     epochs=nli_num_epochs,
     evaluation_steps=int(len(nli_train_dataloader)*0.1),
