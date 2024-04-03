@@ -3,7 +3,7 @@ from sentence_transformers import SentenceTransformer, util
 
 if __name__ == '__main__':
     start = time.time()
-    model = SentenceTransformer('experiment/save/roberta-large_NLI_STS') # 해당 경로에 있는 파일이 필요합니다. 다운받으셔서 경로 지정해주세요
+    model = SentenceTransformer('experiment/similarity/save/roberta-large_NLI_STS') # 해당 경로에 있는 파일이 필요합니다. 다운받으셔서 경로 지정해주세요
     end = time.time()
     print("model load time:", end-start, "sec")
 
