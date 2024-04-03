@@ -4,7 +4,53 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="63210480-7783-4e50-ae97-6a0a022876e4" name="Changes" comment="RoBERTa-large weight" />
+    <list default="true" id="63210480-7783-4e50-ae97-6a0a022876e4" name="Changes" comment="Folder structure reorganization">
+      <change afterPath="$PROJECT_DIR$/experiment/similarity/RoBERTa-base.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/experiment/similarity/RoBERTa-large_NLI_STS.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/experiment/similarity/RoBERTa-large_STS.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/experiment/similarity/bert.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/experiment/similarity/countvectorizer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/experiment/similarity/dataset/dataset.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/experiment/similarity/dataset/model_benchmark.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/experiment/similarity/experiment.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/experiment/similarity/save/roberta-large_NLI_STS/1_Pooling/config.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/experiment/similarity/save/roberta-large_NLI_STS/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/experiment/similarity/save/roberta-large_NLI_STS/config.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/experiment/similarity/save/roberta-large_NLI_STS/config_sentence_transformers.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/experiment/similarity/save/roberta-large_NLI_STS/eval/similarity_evaluation_sts-valid_results.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/experiment/similarity/save/roberta-large_NLI_STS/model.safetensors" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/experiment/similarity/save/roberta-large_NLI_STS/modules.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/experiment/similarity/save/roberta-large_NLI_STS/sentence_bert_config.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/experiment/similarity/save/roberta-large_NLI_STS/similarity_evaluation_sts-test_results.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/experiment/similarity/save/roberta-large_NLI_STS/special_tokens_map.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/experiment/similarity/save/roberta-large_NLI_STS/tokenizer.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/experiment/similarity/save/roberta-large_NLI_STS/tokenizer_config.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/experiment/similarity/save/roberta-large_NLI_STS/vocab.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/experiment/similarity/save/save.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment/RoBERTa-base.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment/RoBERTa-large_NLI_STS.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment/RoBERTa-large_STS.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment/bert.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment/countvectorizer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment/dataset/dataset.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment/dataset/model_benchmark.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment/experiment.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment/save/roberta-large_NLI_STS/1_Pooling/config.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment/save/roberta-large_NLI_STS/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment/save/roberta-large_NLI_STS/config.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment/save/roberta-large_NLI_STS/config_sentence_transformers.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment/save/roberta-large_NLI_STS/eval/similarity_evaluation_sts-valid_results.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment/save/roberta-large_NLI_STS/model.safetensors" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment/save/roberta-large_NLI_STS/modules.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment/save/roberta-large_NLI_STS/sentence_bert_config.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment/save/roberta-large_NLI_STS/similarity_evaluation_sts-test_results.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment/save/roberta-large_NLI_STS/special_tokens_map.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment/save/roberta-large_NLI_STS/tokenizer.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment/save/roberta-large_NLI_STS/tokenizer_config.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment/save/roberta-large_NLI_STS/vocab.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment/save/save.md" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,18 +95,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.RoBerta-large_NLI_STS.executor": "Run",
-    "Python.SBERT_STS.executor": "Run",
-    "Python.main.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/PC2301/Desktop/Grading",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.RoBerta-large_NLI_STS.executor&quot;: &quot;Run&quot;,
+    &quot;Python.SBERT_STS.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/PC2301/Desktop/Grading&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\PC2301\Desktop\Grading\experiment\dataset" />
@@ -290,7 +336,39 @@
       <option name="project" value="LOCAL" />
       <updated>1711972406219</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Edit">
+      <option name="closed" value="true" />
+      <created>1711973801010</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1711973801010</updated>
+    </task>
+    <task id="LOCAL-00028" summary="basic code">
+      <option name="closed" value="true" />
+      <created>1711973843217</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1711973843217</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Folder structure reorganization">
+      <option name="closed" value="true" />
+      <created>1712120911233</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1712120911233</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Folder structure reorganization">
+      <option name="closed" value="true" />
+      <created>1712120996148</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1712120996148</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -315,6 +393,9 @@
     <MESSAGE value="Eval result" />
     <MESSAGE value="Revision &amp; Fix" />
     <MESSAGE value="RoBERTa-large weight" />
-    <option name="LAST_COMMIT_MESSAGE" value="RoBERTa-large weight" />
+    <MESSAGE value="Edit" />
+    <MESSAGE value="basic code" />
+    <MESSAGE value="Folder structure reorganization" />
+    <option name="LAST_COMMIT_MESSAGE" value="Folder structure reorganization" />
   </component>
 </project>

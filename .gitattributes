@@ -1,3 +1,4 @@
 /experiment/save/roberta-large_NLI_STS filter=lfs diff=lfs merge=lfs -text
 experiment/save/roberta-large_NLI_STS filter=lfs diff=lfs merge=lfs -text
 experiment/save/roberta-large_NLI_STS/** filter=lfs diff=lfs merge=lfs -text
+experiment/similarity/** filter=lfs diff=lfs merge=lfs -text
