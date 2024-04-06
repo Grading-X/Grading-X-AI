@@ -5,5 +5,5 @@ Semantic Textual Similarity (STS) Data를 이용할 예정<br>
 저작권 문제 우려하여 github상에 별도 업로드하지 않고 로컬에서 사용 !
 
 # Benchmark Info
-<img src="./model_benchmark.png">
+<img src="../img/model_benchmark.png">
 https://klue-benchmark.com/leaderboard
