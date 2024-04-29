@@ -28,3 +28,6 @@ glove.add_dictionary(corpus.dictionary)
 
 glove.save('./save/glove/glove_model.model')
 load_glove = Glove.load('./save/glove/glove_model.model')
+
+similar_list = load_glove.most_similar("한국")
+print(similar_list)
