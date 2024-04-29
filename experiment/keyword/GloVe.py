@@ -25,3 +25,6 @@ glove = Glove(no_components=100, learning_rate=0.05)
 
 glove.fit(corpus.matrix, epochs=20, no_threads=4, verbose=True)
 glove.add_dictionary(corpus.dictionary)
+
+glove.save('./save/glove/glove_model.model')
+load_glove = Glove.load('./save/glove/glove_model.model')
