@@ -23,3 +23,6 @@ for sentence in train['document']:
 
 model = gensim.models.Word2Vec(sentences = tokenized_data, vector_size = 100, window = 5, min_count = 5, workers = 4, sg = 0)
 print(model.wv.vectors.shape)
+
+model.wv.save_word2vec_format('./save/word2vec/ko_w2v')
+model = gensim.models.KeyedVectors.load_word2vec_format("./save/word2vec/ko_w2v")
