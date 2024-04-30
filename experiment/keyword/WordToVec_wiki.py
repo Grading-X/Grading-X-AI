@@ -9,6 +9,7 @@
 import re
 import os
 from konlpy.tag import Mecab
+from gensim.models import Word2Vec
 
 def list_wiki(dirname):
     filepaths = []
@@ -55,3 +56,5 @@ for line in lines:
   if line:
     result.append(mecab.morphs(line))
 print(len(result))
+
+model = Word2Vec(result, size=100, window=5, min_count=5, workers=4, sg=0)
