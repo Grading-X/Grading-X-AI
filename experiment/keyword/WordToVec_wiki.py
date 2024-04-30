@@ -61,3 +61,6 @@ model = gensim.models.Word2Vec(result, size=100, window=5, min_count=5, workers=
 
 model.wv.save_word2vec_format('./save/word2vec/ko_w2v')
 model = gensim.models.KeyedVectors.load_word2vec_format("./save/word2vec/ko_w2v")
+
+model_result1 = model.most_similar("한국")
+print(model_result1)
