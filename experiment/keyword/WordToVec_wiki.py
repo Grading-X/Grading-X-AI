@@ -8,6 +8,7 @@
 
 import re
 import os
+from konlpy.tag import Mecab
 
 def list_wiki(dirname):
     filepaths = []
@@ -42,3 +43,15 @@ while True:
     if i==10:
         break
 f.close()
+
+mecab = Mecab()
+
+f = open('output_file.txt', encoding="utf8")
+lines = f.read().splitlines()
+print(len(lines))
+
+result = []
+for line in lines:
+  if line:
+    result.append(mecab.morphs(line))
+print(len(result))
