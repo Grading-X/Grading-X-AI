@@ -30,3 +30,15 @@ with open("output_file.txt", "w") as outfile:
         with open(filename) as infile:
             contents = infile.read()
             outfile.write(contents)
+
+f = open('output_file.txt', encoding="utf8")
+
+i = 0
+while True:
+    line = f.readline()
+    if line != '\n':
+        i = i+1
+        print("%d번째 줄 :"%i + line)
+    if i==10:
+        break
+f.close()
