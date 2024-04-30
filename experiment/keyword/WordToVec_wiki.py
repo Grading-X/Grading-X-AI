@@ -24,3 +24,9 @@ def list_wiki(dirname):
     return sorted(filepaths)
 
 filepaths = list_wiki("text")
+
+with open("output_file.txt", "w") as outfile:
+    for filename in filepaths:
+        with open(filename) as infile:
+            contents = infile.read()
+            outfile.write(contents)
