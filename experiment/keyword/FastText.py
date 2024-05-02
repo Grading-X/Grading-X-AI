@@ -46,3 +46,10 @@ okt = Okt()
 
 def morpheme_tokenize(sentence):
     return [token_decompose(token) for token in okt.morphs(sentence)]
+
+train = []
+for i, sentence in enumerate(data['reviews'].to_list()):
+    preprocessed_data = morpheme_tokenize(sentence)
+    train.append(preprocessed_data)
+
+    if i % 10000 == 0: print(f"{i} Done")
