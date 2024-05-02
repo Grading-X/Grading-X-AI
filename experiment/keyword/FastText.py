@@ -12,6 +12,7 @@ Colab Environment Setting
 import urllib.request
 import pandas as pd
 import hgtk
+from konlpy.tag import Okt
 
 # 네이버 쇼핑 리뷰 데이터
 # urllib.request.urlretrieve("https://raw.githubusercontent.com/bab2min/corpus/master/sentiment/naver_shopping.txt", filename="ratings_total.txt")
@@ -40,3 +41,8 @@ def token_decompose(token):
     return decomposed_token
 
 print(token_decompose("테스트용"))
+
+okt = Okt()
+
+def morpheme_tokenize(sentence):
+    return [token_decompose(token) for token in okt.morphs(sentence)]
