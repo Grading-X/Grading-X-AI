@@ -47,9 +47,14 @@ okt = Okt()
 def morpheme_tokenize(sentence):
     return [token_decompose(token) for token in okt.morphs(sentence)]
 
+# 전처리 약 20분 소요 -> 저장해두고 사용할 것
 train = []
 for i, sentence in enumerate(data['reviews'].to_list()):
     preprocessed_data = morpheme_tokenize(sentence)
     train.append(preprocessed_data)
 
     if i % 10000 == 0: print(f"{i} Done")
+
+with open("train.txt", 'w') as f:
+    for line in train:
+        f.write(' '.join(line)+'\n')
