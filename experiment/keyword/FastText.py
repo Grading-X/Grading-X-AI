@@ -61,7 +61,35 @@ with open("train.txt", 'w') as f:
         f.write(' '.join(line)+'\n')
 
 model = fasttext.train_unsupervised('train.txt', model='cbow')
-model.save_model("fasttext.bin") # 모델 저장
-model = fasttext.load_model("fasttext.bin") # 모델 로드
+model.save_model("fasttext.bin")
+model = fasttext.load_model("fasttext.bin")
 
 print(model.get_nearest_neighbors(token_decompose('형태'), k=5))
+
+def assemble_to_word(sequence):
+    char_splitted = []
+    index = 0
+
+    while index < len(sequence):
+        if not hgtk.checker.is_hangul(sequence[index]):
+            char_splitted.append(sequence[index])
+            index = index + 1
+        else:
+            char_splitted.append(sequence[index:index+3])
+            index = index + 3
+
+    word = ''
+    try:
+        for char in char_splitted:
+            if len(char) == 3:
+                if char[2] == "-":
+                    word = word + hgtk.letter.compose(char[0], char[1])
+                else:
+                    word = word + hgtk.letter.compose(char[0], char[1], char[2])
+            else:
+                word = word + char
+    except Exception as exception:
+        if type(exception).__name__ == 'NotHangulException':
+            return sequence
+
+    return word
