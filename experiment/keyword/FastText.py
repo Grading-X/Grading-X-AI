@@ -13,6 +13,7 @@ import urllib.request
 import pandas as pd
 import hgtk
 from konlpy.tag import Okt
+import fasttext
 
 # 네이버 쇼핑 리뷰 데이터
 # urllib.request.urlretrieve("https://raw.githubusercontent.com/bab2min/corpus/master/sentiment/naver_shopping.txt", filename="ratings_total.txt")
@@ -58,3 +59,5 @@ for i, sentence in enumerate(data['reviews'].to_list()):
 with open("train.txt", 'w') as f:
     for line in train:
         f.write(' '.join(line)+'\n')
+
+model = fasttext.train_unsupervised('train.txt', model='cbow')
