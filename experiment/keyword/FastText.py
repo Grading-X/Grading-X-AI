@@ -96,3 +96,5 @@ def assemble_to_word(sequence):
 
 def pipeline(sequence):
     return [(assemble_to_word(word), similarity) for (similarity, word) in sequence]
+
+print(pipeline(model.get_nearest_neighbors(token_decompose('물티슈'), k=5)))
