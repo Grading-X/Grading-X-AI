@@ -61,3 +61,6 @@ with open("train.txt", 'w') as f:
         f.write(' '.join(line)+'\n')
 
 model = fasttext.train_unsupervised('train.txt', model='cbow')
+model.save_model("fasttext.bin") # 모델 저장
+model = fasttext.load_model("fasttext.bin") # 모델 로드
+
