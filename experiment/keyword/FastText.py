@@ -93,3 +93,6 @@ def assemble_to_word(sequence):
             return sequence
 
     return word
+
+def pipeline(sequence):
+    return [(assemble_to_word(word), similarity) for (similarity, word) in sequence]
