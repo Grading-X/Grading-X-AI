@@ -64,3 +64,4 @@ model = fasttext.train_unsupervised('train.txt', model='cbow')
 model.save_model("fasttext.bin") # 모델 저장
 model = fasttext.load_model("fasttext.bin") # 모델 로드
 
+print(model.get_nearest_neighbors(token_decompose('형태'), k=5))
