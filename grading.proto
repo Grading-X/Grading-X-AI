@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+service Grader {
+  rpc grade (GradingRequest) returns (GradingResponse) {}
+}
+
+message GradingRequest {
+  string guest_email = 1;
+  int64 exam_content_id = 2;
+}
+
+message GradingResponse {
+  map<int64, float> cosine_similarity = 1;
+}
