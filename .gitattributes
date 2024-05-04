@@ -1,2 +1,0 @@
-experiment/similarity/save/roberta-large_NLI_STS/** filter=lfs diff=lfs merge=lfs -text
-experiment/keyword/save/fasttext/fasttext.bin filter=lfs diff=lfs merge=lfs -text
