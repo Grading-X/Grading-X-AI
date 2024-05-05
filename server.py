@@ -19,6 +19,10 @@ class GraderServicer(grading_pb2_grpc.GraderServicer):
 
         cos_score_dic = {}
 
+        grading_response = grading_pb2.GradingResponse()
+
+        cosine_similarity_field = grading_response.cosine_similarity
+
         for question_id, value in answer_dic.items():
             correct_answer = value[0].split('*')
             guest_answer = value[1]
@@ -27,9 +31,9 @@ class GraderServicer(grading_pb2_grpc.GraderServicer):
                 embedding = self.model.encode([correct, guest_answer])
                 cos_score = util.pytorch_cos_sim(embedding[0], embedding[1])[0]
                 max_score = max(max_score, cos_score.item())
-            cos_score_dic[question_id] = max_score
+            cosine_similarity_field[question_id] = max_score
 
-        return grading_pb2.GradingResponse(cosine_similarity_list=cos_score_list)
+        return grading_response
 
 
 def fetch_queries_from_database(exam_content_id, guest_email):
