@@ -4,6 +4,8 @@ from sentence_transformers import SentenceTransformer, util
 import fasttext
 from konlpy.tag import Okt
 
+def pipeline(keyword, keyword_model, okt):
+    pass
 
 if __name__ == '__main__':
     sentence_model = SentenceTransformer('experiment/similarity/save/roberta-large_NLI_STS')
@@ -44,5 +46,20 @@ if __name__ == '__main__':
     cos_score = util.pytorch_cos_sim(embedding_list[0], student_answer)[0] # index == 답안순서
     print(cos_score.shape)
     print(cos_score[0])
+
+    final_score = [0] * (len(answer_list) - 1)  # 0~1점 사이로 mapping함, 추후 배점에 맞게 곱연산 필요
+    keyword_index = []
+    for index, score in enumerate(cos_score):
+        if score >= 0.7:
+            final_score[index] = 1
+        elif score <= 0.5:
+            final_score[index] = 0
+        else:
+            keyword_index.append(index)
+
+    if keyword_index:
+        keyword_score = pipeline(keyword, keyword_model, okt)
+        for i, index in enumerate(keyword_index):
+            final_score[index] = keyword_score[i]
 
 
