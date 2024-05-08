@@ -1,12 +1,12 @@
 import grpc
-import grading_pb2
-import grading_pb2_grpc
+import grader_pb2
+import grader_pb2_grpc
 import psycopg2
 from sentence_transformers import SentenceTransformer, util
 from concurrent import futures
 
 
-class GraderServicer(grading_pb2_grpc.GraderServicer):
+class GraderServicer(grader_pb2_grpc.GraderServicer):
     def __init__(self):
         self.model = SentenceTransformer('experiment/similarity/save/roberta-large_NLI_STS')
 
@@ -21,6 +21,10 @@ class GraderServicer(grading_pb2_grpc.GraderServicer):
 
             print(answer_dic)
 
+            print("Received request for exam_content_id:", exam_content_id)
+            print("Received request for guest_email:", guest_email)
+            print("Answer dictionary:", answer_dic)
+
             for question_id, value in answer_dic.items():
                 correct_answer = value[0].split('*')
                 guest_answer = value[1]
@@ -31,7 +35,7 @@ class GraderServicer(grading_pb2_grpc.GraderServicer):
                     max_score = max(max_score, cos_score.item())
                 cos_score_dic[question_id] = max_score
 
-            return grading_pb2.GradingResponse(cosine_similarity=cos_score_dic)
+            return grader_pb2.GradingResponse(cosine_similarity=cos_score_dic)
         except Exception as e:
             # 오류 출력
             print("Error occurred during grading:", e)
@@ -43,7 +47,7 @@ def fetch_queries_from_database(exam_content_id, guest_email):
         dbname='postgres',
         user='postgres',
         password='postgres',
-        host='localhost',
+        host='3.34.49.173',
         port=5432
     )
     cur = conn.cursor()
@@ -68,7 +72,7 @@ def fetch_queries_from_database(exam_content_id, guest_email):
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    grading_pb2_grpc.add_GraderServicer_to_server(GraderServicer(), server)
+    grader_pb2_grpc.add_GraderServicer_to_server(GraderServicer(), server)
     server.add_insecure_port('[::]:50051')
     server.start()
     server.wait_for_termination()
