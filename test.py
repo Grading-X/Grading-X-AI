@@ -36,5 +36,12 @@ if __name__ == '__main__':
     print("Parallel Processing Time : ", end - start)
     print("모델이 할당된 디바이스:", sentence_model.device)
 
+    embedding_list = sentence_model.encode(answer_list, batch_size=len(answer_list))
+    desired_answer = np.broadcast_to(embedding_list[0], (30, 1024))
+    print(desired_answer.shape)
+    # print(np.array_equal(desired_answer[29], embedding_list[0]))
+
+    student_answer = embedding_list[1:]
+    print(student_answer.shape)
 
 
