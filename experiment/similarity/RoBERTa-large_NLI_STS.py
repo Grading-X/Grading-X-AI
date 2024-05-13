@@ -8,12 +8,28 @@ import logging
 from datetime import datetime
 
 import torch
+import numpy as np
+import random
+import os
 from torch.utils.data import DataLoader
 from datasets import load_dataset
 from sentence_transformers import SentenceTransformer, models, LoggingHandler, losses, util
 from sentence_transformers.evaluation import EmbeddingSimilarityEvaluator
 from sentence_transformers.readers import InputExample
 from sentence_transformers.datasets import NoDuplicatesDataLoader
+
+def seed_everything(seed: int = 42):
+    random.seed(seed)
+    np.random.seed(seed)
+    os.environ["PYTHONHASHSEED"] = str(seed)
+
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+
+my_seed = 42
+seed_everything(42)
 
 logging.basicConfig(
     format="%(asctime)s - %(message)s",
