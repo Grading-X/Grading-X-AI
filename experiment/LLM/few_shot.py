@@ -1,4 +1,5 @@
 import os
+import time
 from langchain_openai import ChatOpenAI
 from langchain.prompts.prompt import PromptTemplate
 from langchain.prompts.few_shot import FewShotPromptTemplate
@@ -48,3 +49,9 @@ question = "같은 높이에서 떨어진 접시가 콘크리트 바닥에서는
 answer='접시를 솜에 떨어트릴 때는 안깨진다.\n체육관같은 곳에서 매트를 사용한다.'
 final_prompt = prompt.format(question=question, answer=answer)
 print(final_prompt)
+
+start = time.time()
+print("--------------------------")
+sentence = llm.predict(final_prompt)
+print(sentence)
+print('응답시간: ', time.time() - start)
