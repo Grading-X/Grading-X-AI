@@ -1,6 +1,7 @@
 import os
 from langchain_openai import ChatOpenAI
 from langchain.prompts.prompt import PromptTemplate
+from langchain.prompts.few_shot import FewShotPromptTemplate
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -35,3 +36,15 @@ example_prompt = PromptTemplate(
     input_variables=['question', 'answer', 'score', 'reason'] , template="문제:{question}\n학생답안:{answer}\n점수:{score}\n채점근거:{reason}"
 )
 print(example_prompt.format(**examples[0]))
+
+prompt = FewShotPromptTemplate(
+    examples=examples,
+    example_prompt=example_prompt,
+    suffix="문제:{question}\n학생답안:{answer}",
+    input_variables=['question', 'answer']
+)
+
+question = "같은 높이에서 떨어진 접시가 콘크리트 바닥에서는 깨지는데 솜 위에서는 깨지지 않는 현상과 같은 원리로 설명할 수 있는 현상을 세 가지 서술하시오"
+answer='접시를 솜에 떨어트릴 때는 안깨진다.\n체육관같은 곳에서 매트를 사용한다.'
+final_prompt = prompt.format(question=question, answer=answer)
+print(final_prompt)
