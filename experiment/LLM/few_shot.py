@@ -1,5 +1,6 @@
 import os
 import time
+import re
 from langchain_openai import ChatOpenAI
 from langchain.prompts.prompt import PromptTemplate
 from langchain.prompts.few_shot import FewShotPromptTemplate
@@ -55,3 +56,7 @@ print("--------------------------")
 sentence = llm.invoke(final_prompt).content
 print(sentence)
 print('응답시간: ', time.time() - start)
+
+index = sentence.find('점수')
+numbers = re.findall(r'\d+', sentence[index:index+10])
+print(numbers[0])
