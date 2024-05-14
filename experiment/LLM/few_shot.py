@@ -52,6 +52,6 @@ print(final_prompt)
 
 start = time.time()
 print("--------------------------")
-sentence = llm.predict(final_prompt)
+sentence = llm.invoke(final_prompt).content
 print(sentence)
 print('응답시간: ', time.time() - start)
