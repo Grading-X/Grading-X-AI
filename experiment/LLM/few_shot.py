@@ -1,5 +1,6 @@
 import os
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
+from langchain.prompts.prompt import PromptTemplate
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -29,3 +30,8 @@ examples = [
         'reason': '문제에 대한 어떠한 적절한 예시도 제공하지 않음',
     },
 ]
+
+example_prompt = PromptTemplate(
+    input_variables=['question', 'answer', 'score', 'reason'] , template="문제:{question}\n학생답안:{answer}\n점수:{score}\n채점근거:{reason}"
+)
+print(example_prompt.format(**examples[0]))
