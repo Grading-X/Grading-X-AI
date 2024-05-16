@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 service Grader {
-  rpc grade (GradingRequest) returns (GradingResponse) {}
+  rpc grade (GradingRequest) returns (GradingResponse) {};
 }
 
 message GradingRequest {
