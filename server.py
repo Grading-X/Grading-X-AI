@@ -20,7 +20,6 @@ class GraderServicer(grader_pb2_grpc.GraderServicer):
             exam_content_id = request.exam_content_id
             grade_type = request.grade_type
 
-
             question_dic, question_guest_answer_dic, guest_answer_dic = fetch_queries_from_database(exam_content_id)
 
             final_score_dic = {}
@@ -40,9 +39,9 @@ class GraderServicer(grader_pb2_grpc.GraderServicer):
                 for index in range(len(cos_score_list)):
                     ga_id = question_guest_answer_dic[question_id][index]
                     if cos_score_list[index] > 0.7:
-                        final_score_dic[ga_id] = weightage
+                        final_score_dic[ga_id] = float(weightage)
                     elif cos_score_list[index] < 0.5:
-                        final_score_dic[ga_id] = 0
+                        final_score_dic[ga_id] = float(0)
                     else:
                         tuple = (ga_id, query, correct_answer, weightage)
                         gpt_request_list.append(tuple)
