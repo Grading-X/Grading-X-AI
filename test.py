@@ -54,11 +54,20 @@ if __name__ == '__main__':
 
     threshold = 0.57
     final_score = [0] * (len(answer_list) - 1)  # 0~1점 사이로 mapping함, 추후 배점에 맞게 곱연산 필요
-    keyword_index = []
     for index, score in enumerate(cos_score):
         if score >= 0.7:
             final_score[index] = 1
         elif score <= 0.5:
             final_score[index] = 0
         else:
-            keyword_index.append(index)
+            # 평가할 문장을 형태소분석/품사태깅, 각 형태소에 대해 임베딩 비교합니다.
+            word_list = okt.pos(
+                answer_list[index + 1])  # index+1에 학생답안이 저장되어 있으므로 이렇게했습니다. answer_list 구성하는 방법에 따라 자유롭게 진행하시면됩니다.
+            for i, sublist in enumerate(keyword_pos_emb_flag_list):
+                keyword, key_pos, emb, flag = sublist
+                if flag: continue
+
+                for word, pos in word_list:  # 처리할 문장
+                    if pos == key_pos:
+                        if util.pytorch_cos_sim(emb, keyword_model[token_decompose(word)]).item() > threshold:
+                            keyword_pos_emb_flag_list[i][3] = True  # flag -> True
