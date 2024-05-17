@@ -4,16 +4,16 @@ import grader_pb2_grpc
 import psycopg2
 import Gpt
 from sentence_transformers import SentenceTransformer, util
-import fasttext
-from konlpy.tag import Okt
+# import fasttext
+# from konlpy.tag import Okt
 from concurrent import futures
 
 
 class GraderServicer(grader_pb2_grpc.GraderServicer):
     def __init__(self):
         self.sentence_model = SentenceTransformer('experiment/similarity/save/roberta-large_NLI_STS')
-        self.keyword_model = fasttext.load_model("./experiment/keyword/save/fasttext/fasttext.bin")
-        self.okt = Okt()
+        # self.keyword_model = fasttext.load_model("./experiment/keyword/save/fasttext/fasttext.bin")
+        # self.okt = Okt()
 
     def grade(self, request, context):
         try:
@@ -71,7 +71,6 @@ def fetch_queries_from_database(exam_content_id):
     )
     cur = conn.cursor()
 
-    #1. 시험에 해당하는 모든 문제
     cur.execute("SELECT q.question_id, q.query, q.answer, q.keyword_list, q.weightage "
                 "FROM question AS q "
                 "WHERE q.exam_content_id = %s ",
@@ -81,15 +80,12 @@ def fetch_queries_from_database(exam_content_id):
     for row in cur.fetchall():
         question_dic[row[0]] = [row[1], row[2], row[3], row[4]]
 
-    #2. 시험에 해당하는 모든 GuestExamContent에서 guest email 가져옴
-    #3. 2에서 가져온 guest_email 로 모든 GuestAnswer - 문제id, 답안
-
     cur.execute("SELECT ga.question_id, ga.guest_answer_id, ga.answer "
                 "FROM guest_answer AS ga "
-                "WHERE ga.guest_email IN ("
-                    "SELECT gec.guest_email "
-                    "FROM guest_exam_content AS gec "
-                    "WHERE gec.exam_content_id = %s "
+                "WHERE ga.question_id IN ("
+                    "SELECT q.question_id "
+                    "FROM question AS q "
+                    "WHERE q.exam_content_id = %s "
                 ")", (exam_content_id,))
 
 
