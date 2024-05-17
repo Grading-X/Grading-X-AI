@@ -71,3 +71,6 @@ if __name__ == '__main__':
                     if pos == key_pos:
                         if util.pytorch_cos_sim(emb, keyword_model[token_decompose(word)]).item() > threshold:
                             keyword_pos_emb_flag_list[i][3] = True  # flag -> True
+
+            ratio = sum(1 for item in keyword_pos_emb_flag_list if item[-1]) / len(keyword_pos_emb_flag_list)
+            keyword_score = ratio * 0.25
