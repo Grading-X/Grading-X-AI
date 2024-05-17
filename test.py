@@ -64,10 +64,10 @@ if __name__ == '__main__':
 
     threshold = 0.57
     final_score = [0] * (len(answer_list) - 1)  # 0~1점 사이로 mapping함, 추후 배점에 맞게 곱연산 필요
-    for index, score in enumerate(cos_score):
-        if score >= 0.7:
+    for index, cosine_score in enumerate(cos_score):
+        if cosine_score >= 0.7:
             final_score[index] = 1
-        elif score <= 0.5:
+        elif cosine_score <= 0.5:
             final_score[index] = 0
         else:
             # 평가할 문장을 형태소분석/품사태깅, 각 형태소에 대해 임베딩 비교합니다.
@@ -84,3 +84,8 @@ if __name__ == '__main__':
 
             ratio = sum(1 for item in keyword_pos_emb_flag_list if item[-1]) / len(keyword_pos_emb_flag_list)
             keyword_score = ratio * 0.25
+            total_score = assign_score(cosine_score) + keyword_score
+
+            final_score[index] = total_score
+
+    print(*final_score)
