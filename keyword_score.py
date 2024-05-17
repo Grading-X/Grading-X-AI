@@ -71,6 +71,8 @@ if __name__ == '__main__':
         elif cosine_score <= 0.5:
             final_score[index] = 0
         else:
+            for sublist in keyword_pos_emb_flag_list: sublist[3] = False
+
             # 평가할 문장을 형태소분석/품사태깅, 각 형태소에 대해 임베딩 비교합니다.
             word_list = okt.pos(
                 answer_list[index + 1])  # index+1에 학생답안이 저장되어 있으므로 이렇게했습니다. answer_list 구성하는 방법에 따라 자유롭게 진행하시면됩니다.
