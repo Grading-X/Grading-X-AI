@@ -48,6 +48,7 @@ if __name__ == '__main__':
     answer_list.append('일본은 아시아 국가')
     answer_list.append('일본은 아프리카 국가')
 
+    start = time.time()
     embedding_list = sentence_model.encode(answer_list, batch_size=len(answer_list))
     student_answer = embedding_list[1:]
     print(student_answer.shape)
@@ -89,3 +90,4 @@ if __name__ == '__main__':
             final_score[index] = total_score
 
     print(*final_score)
+    print('Elapsed Time: ', time.time()-start)
