@@ -2,6 +2,7 @@ import grpc
 import grader_pb2
 import grader_pb2_grpc
 import psycopg2
+import Gpt
 from sentence_transformers import SentenceTransformer, util
 import fasttext
 from konlpy.tag import Okt
