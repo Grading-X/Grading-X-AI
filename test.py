@@ -25,6 +25,16 @@ def token_decompose(token):
 
     return decomposed_token
 
+def assign_score(score):
+    if 0.5 <= score < 0.55:
+        return 0
+    elif 0.55 <= score < 0.6:
+        return 0.25
+    elif 0.6 <= score < 0.65:
+        return 0.5
+    elif 0.65 <= score < 0.7:
+        return 0.75
+
 if __name__ == '__main__':
     sentence_model = SentenceTransformer('experiment/similarity/save/roberta-large_NLI_STS')
     keyword_model = fasttext.load_model("./experiment/keyword/save/fasttext/fasttext.bin")
