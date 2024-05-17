@@ -4,6 +4,26 @@ from sentence_transformers import SentenceTransformer, util
 import fasttext
 from konlpy.tag import Okt
 
+def token_decompose(token):
+    def special_token(consonant):
+        if consonant: return consonant
+        return '-'
+
+    decomposed_token = ''
+    for char in token:
+        try:
+            initial, neutral, final = hgtk.letter.decompose(char)
+
+            initial = special_token(initial)
+            neutral = special_token(neutral)
+            final = special_token(final)
+            decomposed_token = decomposed_token + initial + neutral + final
+        except Exception as exception:
+            if type(exception).__name__ == 'NotHangulException':
+                decomposed_token += char
+
+    return decomposed_token
+
 if __name__ == '__main__':
     sentence_model = SentenceTransformer('experiment/similarity/save/roberta-large_NLI_STS')
     keyword_model = fasttext.load_model("./experiment/keyword/save/fasttext/fasttext.bin")
@@ -24,6 +44,7 @@ if __name__ == '__main__':
     cos_score = util.pytorch_cos_sim(embedding_list[0], student_answer)[0] # index == 답안순서
     print(cos_score.shape)
     print(cos_score[0])
+
 
     final_score = [0] * (len(answer_list) - 1)  # 0~1점 사이로 mapping함, 추후 배점에 맞게 곱연산 필요
     keyword_index = []
