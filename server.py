@@ -16,7 +16,7 @@ class GraderServicer(grader_pb2_grpc.GraderServicer):
 
     def grade(self, request, context):
         try:
-            exam_content_id = str(request.exam_content_id)
+            exam_content_id = request.exam_content_id
             grade_type = request.grade_type
 
 
@@ -26,12 +26,10 @@ class GraderServicer(grader_pb2_grpc.GraderServicer):
             gpt_request_list = []
 
             for question_id in question_guest_answer_dic.keys():
-                print(question_id)
-                print(question_dic[question_id])
                 query = question_dic[question_id][0]
-                correct_answer = question_dic[question_id][2]
-                keyword = str(question_dic[question_id][3]).split('*')
-                weightage = question_dic[question_id][4]
+                correct_answer = question_dic[question_id][1]
+                keyword = str(question_dic[question_id][2]).split('*')
+                weightage = question_dic[question_id][3]
 
                 answer_list = [correct_answer] + [guest_answer_dic[ga_id] for ga_id in question_guest_answer_dic[question_id]]
 
@@ -76,7 +74,7 @@ def fetch_queries_from_database(exam_content_id):
     cur.execute("SELECT q.question_id, q.query, q.answer, q.keyword_list, q.weightage "
                 "FROM question AS q "
                 "WHERE q.exam_content_id = %s ",
-                exam_content_id)
+                (exam_content_id,))
 
     question_dic = {}
     for row in cur.fetchall():
@@ -91,7 +89,7 @@ def fetch_queries_from_database(exam_content_id):
                     "SELECT gec.guest_email "
                     "FROM guest_exam_content AS gec "
                     "WHERE gec.exam_content_id = %s "
-                ")", exam_content_id)
+                ")", (exam_content_id,))
 
 
     question_guest_answer_dic = {}
