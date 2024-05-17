@@ -16,8 +16,9 @@ class GraderServicer(grader_pb2_grpc.GraderServicer):
 
     def grade(self, request, context):
         try:
-            exam_content_id = request.exam_content_id
+            exam_content_id = str(request.exam_content_id)
             grade_type = request.grade_type
+
 
             question_dic, question_guest_answer_dic, guest_answer_dic = fetch_queries_from_database(exam_content_id)
 
@@ -25,9 +26,11 @@ class GraderServicer(grader_pb2_grpc.GraderServicer):
             gpt_request_list = []
 
             for question_id in question_guest_answer_dic.keys():
+                print(question_id)
+                print(question_dic[question_id])
                 query = question_dic[question_id][0]
                 correct_answer = question_dic[question_id][2]
-                keyword = question_dic[question_id][3].split('*')
+                keyword = str(question_dic[question_id][3]).split('*')
                 weightage = question_dic[question_id][4]
 
                 answer_list = [correct_answer] + [guest_answer_dic[ga_id] for ga_id in question_guest_answer_dic[question_id]]
@@ -83,7 +86,7 @@ def fetch_queries_from_database(exam_content_id):
     #3. 2에서 가져온 guest_email 로 모든 GuestAnswer - 문제id, 답안
 
     cur.execute("SELECT ga.question_id, ga.guest_answer_id, ga.answer "
-                "FROM quest_answer AS ga "
+                "FROM guest_answer AS ga "
                 "WHERE ga.guest_email IN ("
                     "SELECT gec.guest_email "
                     "FROM guest_exam_content AS gec "
