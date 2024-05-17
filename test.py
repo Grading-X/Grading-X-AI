@@ -52,6 +52,7 @@ if __name__ == '__main__':
         word, pos = okt.pos(keyword)[0]
         keyword_pos_emb_flag_list.append([word, pos, keyword_model[token_decompose(keyword)], False])
 
+    threshold = 0.57
     final_score = [0] * (len(answer_list) - 1)  # 0~1점 사이로 mapping함, 추후 배점에 맞게 곱연산 필요
     keyword_index = []
     for index, score in enumerate(cos_score):
