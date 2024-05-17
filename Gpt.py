@@ -3,6 +3,7 @@ import asyncio
 from langchain_openai import ChatOpenAI
 from langchain.prompts.prompt import PromptTemplate
 from langchain.prompts.few_shot import FewShotPromptTemplate
+import re
 
 examples = [
     {
