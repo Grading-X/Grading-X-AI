@@ -17,20 +17,40 @@ class GraderServicer(grader_pb2_grpc.GraderServicer):
     def grade(self, request, context):
         try:
             exam_content_id = request.exam_content_id
+            grade_type = request.grade_type
 
-            answer_dic, guest_dic = fetch_queries_from_database(exam_content_id)
+            question_dic, question_guest_answer_dic, guest_answer_dic = fetch_queries_from_database(exam_content_id)
 
             final_score_dic = {}
+            gpt_request_list = []
 
-            for question_id, guest_answer_list in guest_dic.items():
-                correct_answer = answer_dic[question_id][0]
-                keyword = answer_dic[question_id][1].split('*')
-                weightage = answer_dic[question_id][2]
-                answer_list = [correct_answer] + [ga[1] for ga in guest_answer_list]
+            for question_id in question_guest_answer_dic.keys():
+                query = question_dic[question_id][0]
+                correct_answer = question_dic[question_id][2]
+                keyword = question_dic[question_id][3].split('*')
+                weightage = question_dic[question_id][4]
+
+                answer_list = [correct_answer] + [guest_answer_dic[ga_id] for ga_id in question_guest_answer_dic[question_id]]
+
                 embedding_list = self.sentence_model.encode(answer_list, batch_size=len(answer_list))
                 cos_score_list = util.pytorch_cos_sim(embedding_list[0], embedding_list[1:])[0]
-                for index in range(len(guest_answer_list)):
-                    final_score_dic[guest_answer_list[index][0]] = processScore(cos_score_list[index])
+
+                for index in range(len(cos_score_list)):
+                    ga_id = question_guest_answer_dic[question_id][index]
+                    if cos_score_list[index] > 0.7:
+                        final_score_dic[ga_id] = weightage
+                    elif cos_score_list[index] < 0.5:
+                        final_score_dic[ga_id] = 0
+                    else:
+                        tuple = (ga_id, query, correct_answer, weightage)
+                        gpt_request_list.append(tuple)
+
+            # gpt_request_list를 이용하여 gpt를 호출하여 final_score_dic에 추가
+            # main(gpt_request_list)
+
+            gpt_response_dic = Gpt.main(gpt_request_list)
+
+            final_score_dic.update(gpt_response_dic)
 
             return grader_pb2.GradingResponse(final_score=final_score_dic)
         except Exception as e:
@@ -49,15 +69,15 @@ def fetch_queries_from_database(exam_content_id):
     )
     cur = conn.cursor()
 
-    #1. 시험에 해당하는 모든 문제 - 문제id, 키워드, 모범답안, 배점 가져옴
-    cur.execute("SELECT q.question_id, q.answer, q.keyword_list, q.weightage "
+    #1. 시험에 해당하는 모든 문제
+    cur.execute("SELECT q.question_id, q.query, q.answer, q.keyword_list, q.weightage "
                 "FROM question AS q "
                 "WHERE q.exam_content_id = %s ",
                 exam_content_id)
 
-    answer_dic = {}
+    question_dic = {}
     for row in cur.fetchall():
-        answer_dic[row[0]] = [row[1], row[2], row[3]]
+        question_dic[row[0]] = [row[1], row[2], row[3], row[4]]
 
     #2. 시험에 해당하는 모든 GuestExamContent에서 guest email 가져옴
     #3. 2에서 가져온 guest_email 로 모든 GuestAnswer - 문제id, 답안
@@ -71,16 +91,19 @@ def fetch_queries_from_database(exam_content_id):
                 ")", exam_content_id)
 
 
-    guest_dic = {}
+    question_guest_answer_dic = {}
+    guest_answer_dic = {}
     for row in cur.fetchall():
-        if row[0] not in guest_dic:
-            guest_dic[row[0]] = []
-        guest_dic[row[0]].append([row[1], row[2]])
+        if row[0] not in question_guest_answer_dic:
+            question_guest_answer_dic[row[0]] = []
+        question_guest_answer_dic[row[0]].append(row[1])
+        guest_answer_dic[row[1]] = row[2]
+
 
     cur.close()
     conn.close()
 
-    return answer_dic, guest_dic
+    return question_dic, question_guest_answer_dic, guest_answer_dic
 
 
 def serve():

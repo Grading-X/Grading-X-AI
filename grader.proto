@@ -6,9 +6,9 @@ service Grader {
 
 message GradingRequest {
   int64 exam_content_id = 1;
+  bool grade_type = 2;
 }
 
 message GradingResponse {
   map<int64, float> final_score = 1;
 }
-//map<guest_answer_id, similarity>

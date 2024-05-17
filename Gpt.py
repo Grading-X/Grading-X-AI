@@ -42,25 +42,18 @@ prompt = FewShotPromptTemplate(
     input_variables=['question', 'answer', 'weight']
 )
 
-async def llm_score(id, quesiton, answer, response_dic):
+async def llm_score(id, question, answer, weight, response_dic):
     llm = ChatOpenAI(temperature=0.3, model_name="gpt-4o",
                      openai_api_key=os.environ.get("OPENAI_API_KEY"))
-    final_prompt = prompt.format(question=question, answer=answer)
+    final_prompt = prompt.format(question=question, answer=answer, weight=weight)
     response = await llm.ainvoke(final_prompt)
-    response_dic[id] = response.content
-    print(f"Completed {id} in ")
+    sentence = response.content
+    index = sentence.find('점수')
+    number = re.search(r'\d+', sentence[index:])
+    response_dic[id] = number.group()
 
 async def parallel_gpt(request_list, response_dic):
-    # await asyncio.gather(*[llm_score(value[0], value[1], value[2], response_dic) for value in request_list])
-
-    await asyncio.gather(
-        llm_score(1,
-                    "같은 높이에서 떨어진 접시가 콘크리트 바닥에서는 깨지는데 솜 위에서는 깨지지 않는 현상과 같은 원리로 설명할 수 있는 현상을 세 가지 서술하시오",\
-                    '접시를 솜에 떨어트릴 때는 안깨진다.\n체육관같은 곳에서 매트를 사용한다.', response_dic),
-        llm_score(2,
-                  "같은 높이에서 떨어진 접시가 콘크리트 바닥에서는 깨지는데 솜 위에서는 깨지지 않는 현상과 같은 원리로 설명할 수 있는 현상을 세 가지 서술하시오",
-                  '접시를 솜에 떨어트릴 때는 안깨진다.', response_dic)
-        )
+    await asyncio.gather(*[llm_score(value[0], value[1], value[2], value[3], response_dic) for value in request_list])
 
 def main(request_list):
     response_dic = {}
