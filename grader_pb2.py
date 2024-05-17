@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0cgrader.proto\">\n\x0eGradingRequest\x12\x13\n\x0bguest_email\x18\x01 \x01(\t\x12\x17\n\x0f\x65xam_content_id\x18\x02 \x01(\x03\"\x8d\x01\n\x0fGradingResponse\x12\x41\n\x11\x63osine_similarity\x18\x01 \x03(\x0b\x32&.GradingResponse.CosineSimilarityEntry\x1a\x37\n\x15\x43osineSimilarityEntry\x12\x0b\n\x03key\x18\x01 \x01(\x03\x12\r\n\x05value\x18\x02 \x01(\x02:\x02\x38\x01\x32\x36\n\x06Grader\x12,\n\x05grade\x12\x0f.GradingRequest\x1a\x10.GradingResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0cgrader.proto\"=\n\x0eGradingRequest\x12\x17\n\x0f\x65xam_content_id\x18\x01 \x01(\x03\x12\x12\n\ngrade_type\x18\x02 \x01(\x08\"{\n\x0fGradingResponse\x12\x35\n\x0b\x66inal_score\x18\x01 \x03(\x0b\x32 .GradingResponse.FinalScoreEntry\x1a\x31\n\x0f\x46inalScoreEntry\x12\x0b\n\x03key\x18\x01 \x01(\x03\x12\r\n\x05value\x18\x02 \x01(\x02:\x02\x38\x01\x32\x36\n\x06Grader\x12,\n\x05grade\x12\x0f.GradingRequest\x1a\x10.GradingResponse\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -21,14 +21,14 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'grader_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
-  _GRADINGRESPONSE_COSINESIMILARITYENTRY._options = None
-  _GRADINGRESPONSE_COSINESIMILARITYENTRY._serialized_options = b'8\001'
+  _GRADINGRESPONSE_FINALSCOREENTRY._options = None
+  _GRADINGRESPONSE_FINALSCOREENTRY._serialized_options = b'8\001'
   _globals['_GRADINGREQUEST']._serialized_start=16
-  _globals['_GRADINGREQUEST']._serialized_end=78
-  _globals['_GRADINGRESPONSE']._serialized_start=81
-  _globals['_GRADINGRESPONSE']._serialized_end=222
-  _globals['_GRADINGRESPONSE_COSINESIMILARITYENTRY']._serialized_start=167
-  _globals['_GRADINGRESPONSE_COSINESIMILARITYENTRY']._serialized_end=222
-  _globals['_GRADER']._serialized_start=224
-  _globals['_GRADER']._serialized_end=278
+  _globals['_GRADINGREQUEST']._serialized_end=77
+  _globals['_GRADINGRESPONSE']._serialized_start=79
+  _globals['_GRADINGRESPONSE']._serialized_end=202
+  _globals['_GRADINGRESPONSE_FINALSCOREENTRY']._serialized_start=153
+  _globals['_GRADINGRESPONSE_FINALSCOREENTRY']._serialized_end=202
+  _globals['_GRADER']._serialized_start=204
+  _globals['_GRADER']._serialized_end=258
 # @@protoc_insertion_point(module_scope)

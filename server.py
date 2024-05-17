@@ -65,7 +65,7 @@ def fetch_queries_from_database(exam_content_id):
         dbname='postgres',
         user='postgres',
         password='postgres',
-        host='3.34.49.173',
+        host='localhost',
         port=5432
     )
     cur = conn.cursor()
