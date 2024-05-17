@@ -3,6 +3,7 @@ import time
 from sentence_transformers import SentenceTransformer, util
 import fasttext
 from konlpy.tag import Okt
+import hgtk
 
 def token_decompose(token):
     def special_token(consonant):
@@ -45,6 +46,11 @@ if __name__ == '__main__':
     print(cos_score.shape)
     print(cos_score[0])
 
+    # keyword는 사전에 품사태깅, 임베딩 과정을 저장해놓습니다.
+    keyword_pos_emb_flag_list = []
+    for keyword in keyword_list:
+        word, pos = okt.pos(keyword)[0]
+        keyword_pos_emb_flag_list.append([word, pos, keyword_model[token_decompose(keyword)], False])
 
     final_score = [0] * (len(answer_list) - 1)  # 0~1점 사이로 mapping함, 추후 배점에 맞게 곱연산 필요
     keyword_index = []
