@@ -51,7 +51,7 @@ async def llm_score(id, question, answer, weight, response_dic):
     sentence = response.content
     index = sentence.find('점수')
     number = re.search(r'\d+', sentence[index:])
-    response_dic[id] = number.group()
+    response_dic[id] = float(number.group())
 
 async def parallel_gpt(request_list, response_dic):
     await asyncio.gather(*[llm_score(value[0], value[1], value[2], value[3], response_dic) for value in request_list])
