@@ -1,0 +1,46 @@
+<h1>Common Concurrency Problems</h1>
+Type 2 – non-deadlock, deadlock bug
+
+<h1>Non-Deadlock Bugs</h1>
+-atomicity violation bugs
+원자적으로 일어나야 할 일이 그렇지 않았을 때
+해결책 : shared-varibable 사이에 lock을 적용시켜준다.
+
+-order violation bugs
+순서가 지켜지지 않아서 발생하는 버그
+(두 메모리 액세스 사이의 원하는 순서가 뒤집힘)
+해결책 : condition variable을 사용한 순서 강요(enforce ordering)
+
+<h1>Deadlock Bugs ( 교착 상태 )</h1>
+복잡한 locking protocol을 사용하는 concurrent system에서 발생
+
+왜 발생하는가?
+i) 복잡한 의존성
+ii) 코드가 숨겨져 있어서 ( encapsulation )
+
+Deadlock의 4가지 조건 ( 모두 만족시 발생 )
+1. Mutual exclusion : 상호 배제로 resource에 접근
+2. Hold-and-wait : Thread가 resource를 잡고 대기하는 상황
+3. No preemption ( 비선점형 ) :　thread가 holding하고 있는 것을 내릴 수 없음
+4. Circular wait : thread 원하는 resource가 다른 resource에 의해 holding 되어 있는 상황의 circular chain
+
+예방: Circular Wait
+L1과 L2 lock이 있다면, L1 -> L2의 순서대로 lock을 잡게 total ordering을 해준다. ( no cyclical wait )
+다만, 현실적으로 힘들기에 partial ordering 정도로 사용할 수 있다.
+
+예방: Hold-And-Wait
+모든 lock이 atomically하게 잡히도록 설정한다. ( lock prevention )
+문제점 : encapsulation-어떤 lock이 쓰이는지 모두 알아야함
+decrease concurrency
+
+예방: No Preemption
+pthread_mutex_trylock()을 통해 lock 잡기 시도, 없으면 기존 lock 풀어주기
+문제점 : livelock
+두 개의 thread가 동시에 lock을 잡고 trylock()을 계속 시도하는 상황 (-> 하나에 random delay를 주어 해결 )
+
+예방: Mutual Exclusion
+상호배제를 없앤 코드 ( lock-free ! )
+-> powerful hardwear instructions 사용 ( compare-and-swap() ... )
+
+Delock Avoidance via Scheduling
+thread마다 grab하는 lock 파악 -> 겹치지 않게 scheduling
