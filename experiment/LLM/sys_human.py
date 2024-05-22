@@ -28,3 +28,11 @@ student_message_prompt = HumanMessagePromptTemplate(prompt=human_prompt)
 chat_prompt = ChatPromptTemplate.from_messages(
     [system_message_prompt, student_message_prompt]
 )
+
+formatted_prompt = chat_prompt.format(
+    question1="프랑스의 수도는 어디인가요?",
+    answer1="파리",
+    question2="에펠탑은 어느 도시에 있나요?",
+    answer2="파리",
+    context="프랑스는 유럽에 위치한 나라로, 수도는 파리입니다."
+)
