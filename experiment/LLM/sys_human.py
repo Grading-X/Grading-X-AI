@@ -18,3 +18,9 @@ sys_prompt: PromptTemplate = PromptTemplate(
     위 형식을 준수하여 아래에서 주어질 문맥정보를 바탕으로 문제, 답안을 작성하세요."""
 )
 system_message_prompt = SystemMessagePromptTemplate(prompt=sys_prompt)
+
+human_prompt: PromptTemplate = PromptTemplate(
+    input_variables=["context"],
+    template="문맥정보: {context}"
+)
+student_message_prompt = HumanMessagePromptTemplate(prompt=human_prompt)
