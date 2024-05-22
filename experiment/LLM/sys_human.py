@@ -24,3 +24,7 @@ human_prompt: PromptTemplate = PromptTemplate(
     template="문맥정보: {context}"
 )
 student_message_prompt = HumanMessagePromptTemplate(prompt=human_prompt)
+
+chat_prompt = ChatPromptTemplate.from_messages(
+    [system_message_prompt, student_message_prompt]
+)
