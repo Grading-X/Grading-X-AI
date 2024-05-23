@@ -1,4 +1,5 @@
 from langchain.prompts.prompt import PromptTemplate
+from langchain.prompts.pipeline import PipelinePromptTemplate
 
 full_template = """{introduction}
 
@@ -26,3 +27,12 @@ start_template = """이제 문맥정보를 바탕으로 아래의 형식을 준�
 문제: {example_q3}
 답안: {example_a3}"""
 start_prompt = PromptTemplate.from_template(start_template)
+
+input_prompts = [
+    ("introduction", introduction_prompt),
+    ("example", example_prompt),
+    ("start", start_prompt),
+]
+pipeline_prompt = PipelinePromptTemplate(
+    final_prompt=full_prompt, pipeline_prompts=input_prompts
+)
