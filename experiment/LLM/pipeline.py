@@ -14,3 +14,15 @@ example_template = """다음은 문맥정보입니다:
 
 {context}"""
 example_prompt = PromptTemplate.from_template(example_template)
+
+start_template = """이제 문맥정보를 바탕으로 아래의 형식을 준수하여 문제와 답변을 {N}개 생성하세요:
+
+문제: {example_q1}
+답안: {example_a1}
+
+문제: {example_q2}
+답안: {example_a2}
+
+문제: {example_q3}
+답안: {example_a3}"""
+start_prompt = PromptTemplate.from_template(start_template)
