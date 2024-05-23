@@ -36,3 +36,14 @@ input_prompts = [
 pipeline_prompt = PipelinePromptTemplate(
     final_prompt=full_prompt, pipeline_prompts=input_prompts
 )
+
+formatted_prompt = pipeline_prompt.format(
+        context = "문맥정보",
+        example_q1="Question1",
+        example_a1="Answer1",
+        example_q2="Question2",
+        example_a2="Answer2",
+        example_q3="Question3",
+        example_a3="Answer3",
+        N=1,
+    )
