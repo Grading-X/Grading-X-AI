@@ -1,5 +1,10 @@
 import os
 
+def is_pdf(file_path):
+    with open(file_path, 'rb') as file:
+        header = file.read(4)
+        return header == b'%PDF'
+
 def get_file_extension(file_path):
     _, file_extension = os.path.splitext(file_path)
     if file_extension.lower() == '.pdf':
