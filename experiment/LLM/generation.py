@@ -5,6 +5,14 @@ def is_pdf(file_path):
         header = file.read(4)
         return header == b'%PDF'
 
+def is_txt(file_path):
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            file.read()
+        return True
+    except UnicodeDecodeError:
+        return False
+
 def get_file_extension(file_path):
     _, file_extension = os.path.splitext(file_path)
     if file_extension.lower() == '.pdf':
