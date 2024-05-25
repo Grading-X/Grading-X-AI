@@ -31,3 +31,15 @@ if __name__ == '__main__':
     file_path = "./data/example2.txt" # pdf나 txt파일 예상하고 작업진행했습니다. 어떤식으로 주셔야할듯합니다??
 
     extension = get_file_extension(file_path) # 파일 확장자 확인
+
+    # PDF인 경우 처리
+    if extension == 'PDF':
+        pass
+
+    # TXT인 경우 처리
+    elif extension == 'TXT':
+        pass
+
+    else:
+        # 처리할 수 없는 파일 확장자인 경우입니다. -> 에러처리? 프론트/백에서 검증거치고 들어오는지?
+        pass
