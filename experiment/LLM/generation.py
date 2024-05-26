@@ -38,6 +38,11 @@ def processing_pdf(path):
 
     return context
 
+def processing_txt(path):
+    with open(path, 'r', encoding='utf-8') as file:
+        context = file.read()
+    return context
+
 if __name__ == '__main__':
     file_path = "./data/example2.txt" # pdf나 txt파일 예상하고 작업진행했습니다. 어떤식으로 주셔야할듯합니다??
 
@@ -50,6 +55,7 @@ if __name__ == '__main__':
 
     # TXT인 경우 처리
     elif extension == 'TXT':
+        context = processing_txt(file_path)  # 파일에서 정보를 뽑아냅니다
         pass
 
     else:
