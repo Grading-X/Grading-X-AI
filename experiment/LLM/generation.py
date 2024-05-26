@@ -1,5 +1,7 @@
 import os
 from langchain_community.document_loaders import PyPDFLoader
+from langchain_openai import ChatOpenAI
+from pipeline import pipeline_prompt
 
 def is_pdf(file_path):
     with open(file_path, 'rb') as file:
@@ -43,6 +45,24 @@ def processing_txt(path):
         context = file.read()
     return context
 
+def problem_generation(N):
+    llm = ChatOpenAI(temperature=0.3, model_name="gpt-4o",
+                     openai_api_key=os.environ.get("OPENAI_API_KEY"))
+
+    formatted_prompt = pipeline_prompt.format(
+        context=context,
+        example_q1="Question1",
+        example_a1="Answer1",
+        example_q2="Question2",
+        example_a2="Answer2",
+        example_q3="Question3",
+        example_a3="Answer3",
+        N=N,
+    )
+
+    sentence = llm.invoke(formatted_prompt).content
+    return sentence
+
 if __name__ == '__main__':
     file_path = "./data/example2.txt" # pdf나 txt파일 예상하고 작업진행했습니다. 어떤식으로 주셔야할듯합니다??
 
@@ -51,11 +71,13 @@ if __name__ == '__main__':
     # PDF인 경우 처리
     if extension == 'PDF':
         context = processing_pdf(file_path)  # 파일에서 정보를 뽑아냅니다
+        sentence = problem_generation(N=1)  # 문제를 N개 생성합니다 (너무 많이 X..., 1개 권장)
         pass
 
     # TXT인 경우 처리
     elif extension == 'TXT':
         context = processing_txt(file_path)  # 파일에서 정보를 뽑아냅니다
+        sentence = problem_generation(N=1)  # 문제를 N개 생성합니다 (너무 많이 X..., 1개 권장)
         pass
 
     else:
