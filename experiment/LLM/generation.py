@@ -1,4 +1,5 @@
 import os
+from langchain_community.document_loaders import PyPDFLoader
 
 def is_pdf(file_path):
     with open(file_path, 'rb') as file:
@@ -27,6 +28,16 @@ def get_file_extension(file_path):
         else:
             return 'Unknown'
 
+def processing_pdf(path):
+    loader = PyPDFLoader(path)
+    document = loader.load()
+
+    context = ''
+    for i in range(len(document)):
+        context += document[i].page_content + "\n"
+
+    return context
+
 if __name__ == '__main__':
     file_path = "./data/example2.txt" # pdf나 txt파일 예상하고 작업진행했습니다. 어떤식으로 주셔야할듯합니다??
 
@@ -34,6 +45,7 @@ if __name__ == '__main__':
 
     # PDF인 경우 처리
     if extension == 'PDF':
+        context = processing_pdf(file_path)  # 파일에서 정보를 뽑아냅니다
         pass
 
     # TXT인 경우 처리
