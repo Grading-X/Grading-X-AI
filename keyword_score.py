@@ -78,9 +78,10 @@ if __name__ == '__main__':
                 answer_list[index + 1])  # index+1에 학생답안이 저장되어 있으므로 이렇게했습니다. answer_list 구성하는 방법에 따라 자유롭게 진행하시면됩니다.
             for i, sublist in enumerate(keyword_pos_emb_flag_list):
                 keyword, key_pos, emb, flag = sublist
-                if flag: continue
 
                 for word, pos in word_list:  # 처리할 문장
+                    if keyword_pos_emb_flag_list[i][3]: break
+
                     if pos == key_pos:
                         if util.pytorch_cos_sim(emb, keyword_model[token_decompose(word)]).item() > threshold:
                             keyword_pos_emb_flag_list[i][3] = True  # flag -> True
