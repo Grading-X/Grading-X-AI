@@ -1,60 +1,69 @@
 import os
+import re
 import asyncio
 from langchain_openai import ChatOpenAI
 from langchain.prompts.prompt import PromptTemplate
-from langchain.prompts.few_shot import FewShotPromptTemplate
-import re
+from langchain.prompts.pipeline import PipelinePromptTemplate
+from dotenv import load_dotenv
+load_dotenv()
 
-examples = [
-    {
-        'question': '같은 높이에서 떨어진 접시가 콘크리트 바닥에서는 깨지는데 솜 위에서는 깨지지 않는 현상과 같은 원리로 설명할 수 있는 현상을 세 가지 서술하시오',
-        'answer': """안전을 위해 자동차에 에어백을 장착한다.
-        야구공을 받을 때 손을 뒤로 빼면서 받는다.
-        계단에서 뛰어내릴 때 무릎을 구부린다.""",
-        'weight': '10',
-        'score': '10/10',
-        'reason': '예시로 제공한 세 가지 모두 충돌 시간을 길게하여 충격력이 작아지는 원리를 담고있다.',
-    },
-    {
-        'question': '같은 높이에서 떨어진 접시가 콘크리트 바닥에서는 깨지는데 솜 위에서는 깨지지 않는 현상과 같은 원리로 설명할 수 있는 현상을 세 가지 서술하시오',
-        'answer': """트램펄린의 경우 높이 뛰었다 착지해도 아프지않다.
-        벽에 계란을 던진다.""",
-        'weight': '100',
-        'score': '30/100',
-        'reason': '예시로 제공한 내용 중 트램펄린의 경우만 충돌 시간을 길게하여 충격력이 작아지는 원리를 담고있으며 세 가지 중 두 가지 현상만 서술하였다.',
-    },
-    {
-        'question': '같은 높이에서 떨어진 접시가 콘크리트 바닥에서는 깨지는데 솜 위에서는 깨지지 않는 현상과 같은 원리로 설명할 수 있는 현상을 세 가지 서술하시오',
-        'answer': """모르겠음""",
-        'weight': '50',
-        'score': '0/50',
-        'reason': '문제에 대한 어떠한 적절한 예시도 제공하지 않음',
-    },
+full_template = """{introduction}
+
+{example}
+
+{start}"""
+full_prompt = PromptTemplate.from_template(full_template)
+
+introduction_template = """당신은 문제 채점을 수행해야 합니다. 주어진 문제와 모범 정답을 바탕으로 채점하세요."""
+introduction_prompt = PromptTemplate.from_template(introduction_template)
+
+example_template = """다음은 주어진 문제와 모범 정답입니다:
+
+문제:{question}
+모범정답:{desired_answer}"""
+example_prompt = PromptTemplate.from_template(example_template)
+
+start_template = """이제 문제와 모범정답을 바탕으로 아래의 형식을 준수하여 마지막 답안에 대한 채점 결과를 이어서 작성하세요:
+
+===형식===
+답안: 형식용 답안1
+점수: 7/10점
+채점근거: 형식용 문장
+
+답안: 형식용 답안2
+점수: 5/10점
+채점근거: 형식용 문장
+
+답안: 형식용 답안3
+점수: 10/10점
+채점근거: 형식용 문장
+
+===마지막 답안===
+답안: {answer}"""
+start_prompt = PromptTemplate.from_template(start_template)
+
+input_prompts = [
+    ("introduction", introduction_prompt),
+    ("example", example_prompt),
+    ("start", start_prompt),
 ]
-
-example_prompt = PromptTemplate(
-    input_variables=['question', 'answer', 'weight', 'score', 'reason'] , template="문제:{question}\n학생답안:{answer}\n배점:{weight}\n점수:{score}\n채점근거:{reason}"
+pipeline_prompt = PipelinePromptTemplate(
+    final_prompt=full_prompt, pipeline_prompts=input_prompts
 )
 
-prompt = FewShotPromptTemplate(
-    examples=examples,
-    example_prompt=example_prompt,
-    suffix="문제:{question}\n학생답안:{answer}\n배점:{weight}",
-    input_variables=['question', 'answer', 'weight']
-)
-
-async def llm_score(id, question, answer, weight, response_dic):
+async def llm_score(id, question, desired_answer, answer, weight, response_dic):
     llm = ChatOpenAI(temperature=0.3, model_name="gpt-4o",
                      openai_api_key=os.environ.get("OPENAI_API_KEY"))
-    final_prompt = prompt.format(question=question, answer=answer, weight=weight)
+    final_prompt = pipeline_prompt.format(question=question,
+                                          desired_answer=desired_answer,
+                                          answer=answer)
     response = await llm.ainvoke(final_prompt)
     sentence = response.content
-    index = sentence.find('점수')
-    number = re.search(r'\d+', sentence[index:])
-    response_dic[id] = float(number.group())
+    match = re.search(r'점수:\s*(\d+)', sentence)
+    response_dic[id] = float(match.group(1)) / 10 * weight # weight는 곱연산으로 처리
 
 async def parallel_gpt(request_list, response_dic):
-    await asyncio.gather(*[llm_score(value[0], value[1], value[2], value[3], response_dic) for value in request_list])
+    await asyncio.gather(*[llm_score(value[0], value[1], value[2], value[3], value[4], response_dic) for value in request_list])
 
 def main(request_list):
     response_dic = {}
