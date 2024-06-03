@@ -70,7 +70,7 @@ class GraderServicer(grader_pb2_grpc.GraderServicer):
                             total_score = assign_score(cos_score_list[index]) + keyword_score
                             final_score_dic[ga_id] = float(total_score * weightage)
                         else:
-                            tuple = (ga_id, query, correct_answer, weightage)
+                            tuple = (ga_id, query, correct_answer, guest_answer_dic[ga_id], weightage)
                             gpt_request_list.append(tuple)
 
             if not grade_type:
