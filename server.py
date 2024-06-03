@@ -48,7 +48,7 @@ class GraderServicer(grader_pb2_grpc.GraderServicer):
                     ga_id = question_guest_answer_dic[question_id][index]
                     if cos_score_list[index] > 0.7:
                         final_score_dic[ga_id] = float(weightage)
-                    elif cos_score_list[index] < 0.5:
+                    elif cos_score_list[index] < 0.4:
                         final_score_dic[ga_id] = float(0)
                     else:
                         if grade_type:
@@ -147,9 +147,9 @@ def token_decompose(token):
     return decomposed_token
 
 def assign_score(score):
-    if 0.5 <= score < 0.55:
+    if 0.4 <= score < 0.5:
         return 0
-    elif 0.55 <= score < 0.6:
+    elif 0.5 <= score < 0.6:
         return 0.25
     elif 0.6 <= score < 0.65:
         return 0.5
