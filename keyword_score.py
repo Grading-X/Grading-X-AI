@@ -26,9 +26,9 @@ def token_decompose(token):
     return decomposed_token
 
 def assign_score(score):
-    if 0.5 <= score < 0.55:
+    if 0.4 <= score < 0.5:
         return 0
-    elif 0.55 <= score < 0.6:
+    elif 0.5 <= score < 0.6:
         return 0.25
     elif 0.6 <= score < 0.65:
         return 0.5
@@ -41,12 +41,12 @@ if __name__ == '__main__':
     okt = Okt()
 
     # 테스트용 데이터
-    answer_list = ['대한민국은 아시아의 국가 중 하나이다.']  # 0 index에 모범 정답 할당
-    keyword_list = ['대한민국', '아시아']  # 초기 키워드
-    answer_list.append('대한민국은 아시아 국가')
-    answer_list.append('대한민국은 아프리카 국가')
-    answer_list.append('일본은 아시아 국가')
-    answer_list.append('일본은 아프리카 국가')
+    answer_list = ['어떤 계의 내부 에너지의 증가량은 계에 더해진 열 에너지에서 계가 외부에 해준 일을 뺀 양과 같다.']  # 0 index에 모범 정답 할당
+    keyword_list = ['에너지']  # 초기 키워드
+    answer_list.append('고립계의 에너지 총합을 일정하다는 이론입니다.')
+    answer_list.append('계의 내부 에너지는 보존된다.')
+    answer_list.append('엔트로피가 일정하다')
+    answer_list.append('어떤 계의 물체 A와 B가 열적 평형상태에 있고, B와 C가 열적 평형상태에 있으면 A와 C도 열평형상태에 있다.')
 
     start = time.time()
     embedding_list = sentence_model.encode(answer_list, batch_size=len(answer_list))
@@ -55,7 +55,7 @@ if __name__ == '__main__':
                                      # 1x1024   @   30x1024 transpose -> 1x30
     cos_score = util.pytorch_cos_sim(embedding_list[0], student_answer)[0] # index == 답안순서
     print(cos_score.shape)
-    print(cos_score[0])
+    print(*cos_score)
 
     # keyword는 사전에 품사태깅, 임베딩 과정을 저장해놓습니다.
     keyword_pos_emb_flag_list = []
@@ -68,7 +68,7 @@ if __name__ == '__main__':
     for index, cosine_score in enumerate(cos_score):
         if cosine_score >= 0.7:
             final_score[index] = 1
-        elif cosine_score <= 0.5:
+        elif cosine_score <= 0.4:
             final_score[index] = 0
         else:
             for sublist in keyword_pos_emb_flag_list: sublist[3] = False
