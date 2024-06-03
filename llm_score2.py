@@ -62,8 +62,9 @@ async def llm_score(id, question, desired_answer, answer, response_list):
     )
     response = await llm.ainvoke(final_prompt)
     sentence = response.content
-    index = sentence.find('점수')
-    number = re.search(r'\d+', sentence[index:index+10])
+    match = re.search(r'점수:\s*(\d+)', sentence)
+    print(match.group())
+    print('id', id, float(match.group(1)) / 10 * 50 )
     response_list.append((id, response.content))
 
 async def main(response_list):
