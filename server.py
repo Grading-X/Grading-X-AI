@@ -42,7 +42,7 @@ class GraderServicer(grader_pb2_grpc.GraderServicer):
                 if grade_type:
                     for keyword in keyword_list:
                         word, pos = self.okt.pos(keyword)[0]
-                        keyword_pos_emb_flag_list.append((word, pos, self.keyword_model[token_decompose(keyword)], False))
+                        keyword_pos_emb_flag_list.append([word, pos, self.keyword_model[token_decompose(keyword)], False])
 
                 for index in range(len(cos_score_list)):
                     ga_id = question_guest_answer_dic[question_id][index]
