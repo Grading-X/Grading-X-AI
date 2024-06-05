@@ -32,7 +32,7 @@ def grade(exam_content_id, grade_type):
             if grade_type:
                 for keyword in keyword_list:
                     word, pos = okt.pos(keyword)[0]
-                    keyword_pos_emb_flag_list.append((word, pos, keyword_model[token_decompose(keyword)], False))
+                    keyword_pos_emb_flag_list.append([word, pos, keyword_model[token_decompose(keyword)], False])
 
             for index in range(len(cos_score_list)):
                 ga_id = question_guest_answer_dic[question_id][index]
@@ -64,8 +64,10 @@ def grade(exam_content_id, grade_type):
                         gpt_request_list.append(tuple)
 
         if not grade_type:
+            print("Grading by GPT")
             gpt_response_dic = Gpt.main(gpt_request_list)
             final_score_dic.update(gpt_response_dic)
+            print("GPT Grading:", final_score_dic)
 
         return final_score_dic
     except Exception as e:
@@ -146,8 +148,8 @@ def assign_score(score):
         return 0.75
 
 if __name__ == '__main__':
-    exam_content_id = 1
-    grade_type = False
+    exam_content_id = 3
+    grade_type = True
 
     dic1, dic2, dic3 = fetch_queries_from_database(exam_content_id)
     print(dic1)
