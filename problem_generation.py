@@ -54,12 +54,12 @@ def problem_generation(N):
 
     formatted_prompt = pipeline_prompt.format(
         context=context,
-        example_q1="Question1",
-        example_a1="Answer1",
-        example_q2="Question2",
-        example_a2="Answer2",
-        example_q3="Question3",
-        example_a3="Answer3",
+        example_q1="형식용 문장",
+        example_a1="형식용 문장",
+        example_q2="형식용 문장",
+        example_a2="형식용 문장",
+        example_q3="형식용 문장",
+        example_a3="형식용 문장",
         N=N,
     )
 
