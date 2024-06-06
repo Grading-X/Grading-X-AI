@@ -77,11 +77,11 @@ def grade(exam_content_id, grade_type):
 
 def fetch_queries_from_database(exam_content_id):
     conn = psycopg2.connect(
-        dbname='postgres',
-        user='postgres',
-        password='postgres',
-        host='3.34.49.173',
-        port=5432
+        dbname='-',
+        user='-',
+        password='-',
+        host='-',
+        port=0
     )
     cur = conn.cursor()
 
@@ -149,7 +149,7 @@ def assign_score(score):
 
 if __name__ == '__main__':
     exam_content_id = 3
-    grade_type = True
+    grade_type = False
 
     dic1, dic2, dic3 = fetch_queries_from_database(exam_content_id)
     print(dic1)
