@@ -7,9 +7,20 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain_openai import ChatOpenAI
 from pipeline import pipeline_prompt
 from dotenv import load_dotenv
-from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware import Middleware
+from starlette.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+middleware = [
+    Middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"]
+    )
+]
+
+app = FastAPI(middleware=middleware)
 
 
 class FileResponse(BaseModel):
@@ -93,19 +104,6 @@ def extract_qa_pairs(text):
         qa_pairs.append({'문제': question.strip(), '답안': answer.strip()})
 
     return qa_pairs
-
-
-origins = [
-    "*",
-]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 
 @app.post("/upload/")
